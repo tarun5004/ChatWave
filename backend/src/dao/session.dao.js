@@ -36,12 +36,11 @@ export const getSessionByUserId = async ({ userId, refreshToken }) => {
 
 //-----------------------------Update Session---------------------------------
 export const updateSession = async ({ userId, refreshToken }) => {
-    const session = await sessionModel.findOne({ userId });
+    const session = await sessionModel.findOneAndUpdate({ userId }, { refreshToken }, { new: true });
     if (!session) {
         throw new Error("Session not found");
     }
-    session.refreshToken = refreshToken;
-    return await session.save();
+    return session;
 }
 export default {
     createSession,

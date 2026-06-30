@@ -51,3 +51,26 @@ export const generateRefreshToken = (user) => {
     );
     return Refreshtoken;
 };
+
+
+//-----------------------------Verify Access Token---------------------------------
+
+export const verifyAccessToken = (token) => {
+    try {
+        const decoded = jwt.verify(token, config.JWT_ACCESS_TOKEN_SECRET);
+        return decoded;
+    } catch (error) {
+        throw new Error("Invalid or expired access token");
+    }
+};
+
+//-----------------------------Verify Refresh Token---------------------------------
+
+export const verifyRefreshToken = (token) => {
+    try {
+        const decoded = jwt.verify(token, config.JWT_REFRESH_TOKEN_SECRET);
+        return decoded;
+    } catch (error) {
+        throw new Error("Invalid or expired refresh token");
+    }
+};

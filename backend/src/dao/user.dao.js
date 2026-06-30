@@ -23,3 +23,8 @@ export const getUserByEmailOrUsername = async ({email, username}) => {
 export const getUserByEmail = async (email) => {
     return await userModel.findOne({ email });
 }
+
+//-----------------------------Get User By ID---------------------------------
+export const getUserById = async (id) => {
+    return await userModel.findById(id).select("-password");
+}
