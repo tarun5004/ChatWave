@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const sessionSchema = new mongoose.Schema({
     userId: {

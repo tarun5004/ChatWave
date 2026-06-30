@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
 
+
 export const createUser = async ({ username, email, password }) => {
 
     const newuser = new userModel({ username, email, password });

@@ -13,6 +13,11 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 
 // -----------use routes ------------
+app.use("/api", indexRouter);
 app.use("/", indexRouter);
+
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
 
 export default app;
