@@ -9,6 +9,13 @@ import sessionModel from "../models/session.model.js";
 */
 
 export const createSession = async ({ userId, refreshToken }) => {
+    const existingSession = await sessionModel.findOne({ userId });
+
+    if (existingSession) {
+        existingSession.refreshToken = refreshToken;
+        return await existingSession.save();
+    }
+
     return await sessionModel.create({ userId, refreshToken });
 }
 
@@ -25,7 +32,20 @@ export const getSessionByUserId = async ({ userId, refreshToken }) => {
     return await sessionModel.findOne({ userId, refreshToken });
 }
 
+
+
+//-----------------------------Update Session---------------------------------
+export const updateSession = async ({ userId, refreshToken }) => {
+    const session = await sessionModel.findOne({ userId });
+    if (!session) {
+        throw new Error("Session not found");
+    }
+    session.refreshToken = refreshToken;
+    return await session.save();
+}
 export default {
     createSession,
-    getSessionByUserId
+    getSessionByUserId,
+    updateSession
 };
+
