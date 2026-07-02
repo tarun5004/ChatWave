@@ -1,16 +1,12 @@
-// import {useState} from 'react'
-import {Provider } from "react-redux"
-import {store} from "../app/store.jsx"
+import { AppProviders } from "./providers"
+import AppRoutes from "./routes"
 
 function App() {
-
-    return (
-            <Provider store={store}>
-                <div className="App">
-                    <h1>Watsapp Clone</h1>
-                </div>
-            </Provider>
-    );
+  return (
+    <AppProviders>
+      <AppRoutes />
+    </AppProviders>
+  )
 }
 
-export default App;
+export default App

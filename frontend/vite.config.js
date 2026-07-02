@@ -6,6 +6,13 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    proxy: {
+      '/api': {
+        target: process.env.VITE_API_PROXY_TARGET || 'http://backend:3000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     watch: {
       usePolling: true,  // Enable polling for file changes
     },
