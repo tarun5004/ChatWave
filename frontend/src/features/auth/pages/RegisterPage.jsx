@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import {useAuth} from "../hooks/useAuth"
 
 const initialForm = {
   username: "",
@@ -11,6 +12,10 @@ export default function RegisterPage() {
   const [form, setForm] = useState(initialForm)
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+  const {register, loading, error} = useAuth()
+
+// Handle input changes handleChange function is called whenever the user types in any of the input fields. It updates the form state with the new values.
   const handleChange = (event) => {
     const { name, value } = event.target
     setForm((currentForm) => ({
@@ -19,8 +24,17 @@ export default function RegisterPage() {
     }))
   }
 
-  const handleSubmit = (event) => {
+
+  // Handle form submission handleSubmit function is called when the user submits the registration form. It prevents the default form submission behavior, calls the register function from the useAuth hook with the form data, and navigates to the conversations page upon successful registration.
+  const handleSubmit = async (event) => {
     event.preventDefault()
+
+    try {
+      await register(form)
+      navigate("/conversations")
+    } catch (error) {
+      console.error("Registration failed:", error)
+    }
   }
 
   return (
@@ -80,11 +94,14 @@ export default function RegisterPage() {
           </div>
         </label>
 
+        {error && <p className="text-sm text-red-500">{error}</p>}
+
         <button
-          className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+          className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-neutral-400"
           type="submit"
+          disabled={loading}
         >
-          Sign up
+          {loading ? "Signing up..." : "Sign up"} 
         </button>
       </form>
 

@@ -23,6 +23,7 @@
     "nodemon": "^3.1.14"
   },
   "dependencies": {
-    "express-validator": "^7.3.2"
+    "express-validator": "^7.3.2",
+    "ioredis": "^5.11.1"
   }
 }

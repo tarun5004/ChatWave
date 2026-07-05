@@ -81,6 +81,8 @@ export const loginUser = async (req, res) => {
     });
 }
 
+
+
 //-----------------------------Logout User---------------------------------
 export const logoutUser = async (req, res) => {
     const { refreshToken } = req.cookies;
@@ -138,5 +140,16 @@ export const getMe = async (req, res) => {
         email: req.user.email
     }
     });
-};
+    if (!req.user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+}
 
+
+// ----------------------------Update Profile -----------------------------------
+
+export const updateProfile = async await (req, res) => {
+    const user = req.user._id;
+    const {username, email} = req.body;
+    
+}

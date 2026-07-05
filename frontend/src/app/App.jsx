@@ -1,4 +1,3 @@
-import { AppProviders } from "./store/providers"
 import {useEffect} from "react"
 import { useDispatch } from "react-redux"
 import { hydrateAuth, getMe } from "../features/auth/store/authSlice"
@@ -16,9 +15,9 @@ function App() {
     }
   }, [dispatch])
   return (
-    <AppProviders>
+
       <AppRoutes />
-    </AppProviders>
+
   )
 }
 

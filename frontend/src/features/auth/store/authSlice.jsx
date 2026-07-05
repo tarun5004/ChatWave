@@ -70,9 +70,7 @@ const authSlice = createSlice({
       state.accessToken = null
       state.isAuthenticated = false
       state.error = null
-      localStorage.removeItem("accessToken")
     },
-    // ✅ HYDRATE: Load token from localStorage on app mount
     hydrateAuth(state, action) {
       state.accessToken = action.payload
       state.isAuthenticated = !!action.payload
@@ -91,8 +89,6 @@ const authSlice = createSlice({
         state.user = action.payload.user
         state.accessToken = action.payload.accessToken
         state.isAuthenticated = true
-        // ✅ PERSIST: Save token to localStorage
-        localStorage.setItem("accessToken", action.payload.accessToken)
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false
@@ -108,8 +104,6 @@ const authSlice = createSlice({
         state.user = action.payload.user
         state.accessToken = action.payload.accessToken
         state.isAuthenticated = true
-        // ✅ PERSIST: Save token to localStorage
-        localStorage.setItem("accessToken", action.payload.accessToken)
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false
@@ -136,8 +130,6 @@ const authSlice = createSlice({
         state.isAuthenticated = false
         state.loading = false
         state.error = null
-        // ✅ CLEAR: Remove token from localStorage
-        localStorage.removeItem("accessToken")
       })
   },
 })

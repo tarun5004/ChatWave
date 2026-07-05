@@ -1,0 +1,5 @@
+try/catch is needed because async thunk with .unwrap() converts Redux rejected action into a normal JavaScript error flow.
+Question
+If we remove .unwrap() from useAuth, will catch still catch backend validation error?
+
+Why should global providers usually live near main.jsx, not inside a component that also uses Redux hooks?

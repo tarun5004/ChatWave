@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
+import { useAuth } from "../hooks/useAuth"
 
 const initialForm = {
   email: "",
@@ -10,6 +11,11 @@ export default function LoginPage() {
   const [form, setForm] = useState(initialForm)
   const [showPassword, setShowPassword] = useState(false)
 
+  const navigate = useNavigate()
+  const { login, loading, error } = useAuth()
+
+
+  // Handle input changes handleChange function is called whenever the user types in any of the input fields. It updates the form state with the new values.
   const handleChange = (event) => {
     const { name, value } = event.target
     setForm((currentForm) => ({
@@ -18,8 +24,16 @@ export default function LoginPage() {
     }))
   }
 
-  const handleSubmit = (event) => {
+  // Handle form submission handleSubmit function is called when the user submits the login form. It prevents the default form submission behavior.
+  const handleSubmit = async (event) => {
     event.preventDefault()
+
+    try {
+      await login(form)
+      navigate("/conversations")
+    } catch (error) {
+      console.error("Login failed:", error)
+    }
   }
 
   return (
@@ -65,12 +79,14 @@ export default function LoginPage() {
             </button>
           </div>
         </label>
+        {error && <p className="text-sm text-red-500">{error}</p>}
 
         <button
-          className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+          className="w-full rounded-lg bg-neutral-900 px-4 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:bg-neutral-400"
           type="submit"
+          disabled={loading}
         >
-          Log in
+          {loading ? "Logging in..." : "Log in"}
         </button>
       </form>
 
