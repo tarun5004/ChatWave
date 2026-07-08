@@ -1,11 +1,5 @@
 import { httpClient } from "../../../shared/api/httpClient"
 
-const authHeader = (accessToken) => ({
-  headers: {
-    Authorization: `Bearer ${accessToken}`,
-  },
-})
-
 export const authApi = {
   register(payload) {
     return httpClient.post("/auth/register", payload)
@@ -15,11 +9,15 @@ export const authApi = {
     return httpClient.post("/auth/login", payload)
   },
 
-  getMe(accessToken) {
-    return httpClient.get("/auth/me", authHeader(accessToken))
+  getMe() {
+    return httpClient.get("/auth/me")
+  },
+
+  refreshAccessToken() {
+    return httpClient.post("/auth/refresh-token", undefined, { skipAuthRefresh: true })
   },
 
   logout() {
-    return httpClient.post("/auth/logout")
+    return httpClient.post("/auth/logout", undefined, { skipAuthRefresh: true })
   },
 }

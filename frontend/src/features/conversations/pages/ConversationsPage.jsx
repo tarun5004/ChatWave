@@ -1,6 +1,20 @@
-import { Link } from "react-router"
+import { useNavigate } from "react-router"
+import { useAuth } from "../../auth/hooks/useAuth"
 
 export default function ConversationsPage() {
+  const navigate = useNavigate()
+  const { logout, loading } = useAuth()
+
+  const handleLogout = async () => {
+    try {
+      await logout()
+    } catch {
+      // Local auth is cleared in the rejected reducer as a fallback.
+    } finally {
+      navigate("/login", { replace: true })
+    }
+  }
+
   return (
     <main className="min-h-screen bg-white text-neutral-950">
       <section className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-5 py-8">
@@ -9,12 +23,14 @@ export default function ConversationsPage() {
             <h1 className="text-xl font-semibold tracking-tight">ChatWave</h1>
             <p className="mt-1 text-sm text-neutral-500">Conversations</p>
           </div>
-          <Link
+          <button
             className="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-medium text-neutral-900 transition hover:bg-neutral-50"
-            to="/login"
+            type="button"
+            disabled={loading}
+            onClick={handleLogout}
           >
-            Log out
-          </Link>
+            {loading ? "Logging out..." : "Log out"}
+          </button>
         </header>
 
         <div className="flex flex-1 items-center justify-center text-center">

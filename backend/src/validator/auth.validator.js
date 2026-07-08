@@ -22,9 +22,7 @@ export const registerUserValidator = [
 export const loginUserValidator = [
     body("email")
         .trim()
-        .normalizeEmail()
-        .notEmpty().withMessage("Email is required")
-        .isEmail().withMessage("Invalid email format"),
+        .notEmpty().withMessage("Email or username is required"),
     body("password")
         .trim()
         .notEmpty().withMessage("Password is required")
@@ -36,13 +34,13 @@ export const loginUserValidator = [
 // -----------------------------Update Profile---------------------------------
 export const updateProfileValidator = [
     body("username")
+        .optional({ values: "falsy" })
         .trim()
-        .notEmpty().withMessage("Username is required")
         .isLength({ min: 3 }).withMessage("Username must be at least 3 characters long"),
     body("email")
+        .optional({ values: "falsy" })
         .trim()
         .normalizeEmail()
-        .notEmpty().withMessage("Email is required")
         .isEmail().withMessage("Invalid email format"),
     validateRequest
 ];
