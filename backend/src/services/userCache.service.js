@@ -4,6 +4,9 @@ import User from "../models/user.model.js";
 
 const USER_CACHE_TTL = 900; // Cache time-to-live in seconds (15 minutes)
 
+
+
+// -----------------------------Get User by ID with Cache---------------------------------
 export const getUserbyId = async (userId) => {
     const cacheKey = `user:${userId}`;
 
@@ -33,7 +36,11 @@ export const getUserbyId = async (userId) => {
 }
 };
 
-// INVALIDATE CACHE FUNCTION
+
+
+
+
+// -----------------------------Invalidate User Cache---------------------------------
 export const invalidateUserCache = async (userId) => {
     const cacheKey = `user:${userId}`;
     await redisClient.del(cacheKey);

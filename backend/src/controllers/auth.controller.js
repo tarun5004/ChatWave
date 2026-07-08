@@ -2,8 +2,10 @@ import * as userDao from "../dao/user.dao.js";
 import * as sessionDao from "../dao/session.dao.js";
 // import { generateAccessToken, generateRefreshToken } from "../utils/auth.utils.js";
 import * as authUtils from "../utils/auth.utils.js";
+import * as userCacheService from "../services/userCache.service.js";
 
 
+// -----------------------------Register User---------------------------------
 export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -140,16 +142,75 @@ export const getMe = async (req, res) => {
         email: req.user.email
     }
     });
-    if (!req.user) {
-        return res.status(404).json({ message: "User not found" });
+        const user = await userCacheService.getUserbyId(req.user._id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email
+            }
+        });
     }
-}
+
 
 
 // ----------------------------Update Profile -----------------------------------
 
-export const updateProfile = async await (req, res) => {
+export const updateProfile = async (req, res) => {
     const user = req.user._id;
     const {username, email} = req.body;
-    
+
+    const updatedUser = await userDao.updateUserProfile(user, {username, email});
+
+    if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    await userCacheService.invalidateUserCache(user); // Invalidate the cache after updating the profile
+        res.status(200).json({
+        message: "Profile updated successfully",
+        user: updatedUser
+    });
 }
+
+// ---------------------------------DELETE USER---------------------------------
+export const deleteUser = async (req, res) => {
+    const userId = req.user._id;
+    const password = req.body.password;
+    const deletedUser = await userDao.deleteUser(userId, password);
+
+    await userCacheService.invalidateUserCache(userId); // Invalidate the cache after deleting the user
+    await clearRefreshTokenSession(userId); // Clear the refresh token session after deleting the user
+
+    res.status(200).json({
+        message: "User deleted successfully",
+        user: {
+            _id: deletedUser._id,
+            username: deletedUser.username,
+            email: deletedUser.email
+        }
+    });
+}
+
+
+// -----------------------------Get User by ID (For search)---------------------------------
+export const getUserByEmailOrUsername = async (req, res) => {
+    const {email, username} = req.query;
+
+    const user = await userDao.getUserByEmailOrUsername({email, username});
+    if (!user) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+        user: {
+            _id: user._id,
+            username: user.username,
+            email: user.email
+        }
+    });
+}
+
