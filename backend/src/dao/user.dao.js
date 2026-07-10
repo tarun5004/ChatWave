@@ -105,3 +105,26 @@ export const getUserByEmailOrUsername = async ({email, username}) => {
     }).select("-password");
     return user;
 }
+
+
+// -----------------------------Get All Users---------------------------------
+
+/**
+ * 
+ * @param {*} search for searching users by username or email
+ * @param {*} excludeUserId  for excluding the current user from the search results
+ * @returns the list of users matching the search criteria, excluding the current user
+ */
+export const searchUsers = async (search, excludeUserId) => {
+    return await userModel
+        .find({
+            _id: { $ne: excludeUserId },
+            $or: [
+                { username: { $regex: search, $options: "i" } },
+                { email: { $regex: search, $options: "i" } },
+            ],
+        })
+        .select("username email")
+        .limit(10)
+        .lean();
+};
