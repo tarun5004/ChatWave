@@ -14,3 +14,13 @@ export const createConversation = async (userId1, userId2) => {
         participants: [userId1, userId2],
     });
 };
+
+
+// -----------------------------Get All Conversations for a User---------------------------------
+export const getConversationsForUser = async (userId) => {
+    return await conversationModel
+    .find({ participants: userId })
+    .sort({ lastMessageAt: -1 })  // Sort by lastMessageAt in descending order
+    .populate('participants', 'username email')  // Populate participants with username and email
+    .lean();  // Use lean() for better performance if you don't need Mongoose documents
+}

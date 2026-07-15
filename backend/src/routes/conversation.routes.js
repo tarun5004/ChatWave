@@ -7,5 +7,6 @@ const router = express.Router();
 // -----------------------------Open Conversation Between Two Users---------------------------------
 router.post("/", authenticateUser, conversationController.openConversation);
 router.post("/open", authenticateUser, conversationController.openConversation);
+router.get("/", authenticateUser, conversationController.ListConversations);
 
 export default router;

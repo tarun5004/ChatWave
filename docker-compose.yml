@@ -53,8 +53,6 @@ services:
       retries: 5
       start_period: 30s
     container_name: redis
-    ports:
-      - "6379:6379"
     volumes:
       - chatwave_redis:/data
     command: redis-server --appendonly yes

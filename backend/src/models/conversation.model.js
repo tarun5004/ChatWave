@@ -14,4 +14,7 @@ const conversationSchema = new mongoose.Schema({
 
 conversationSchema.index({ participants: 1}); // Create an index on the participants field for faster queries
 
+
+
+
 export default mongoose.model("Conversation", conversationSchema);

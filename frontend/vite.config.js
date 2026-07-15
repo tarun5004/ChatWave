@@ -14,8 +14,5 @@ export default defineConfig({
         secure: false,
       },
     },
-    watch: {
-      usePolling: true,  // Enable polling for file changes
-    },
   },
 })

@@ -42,3 +42,13 @@ export const openConversation = async ( req, res, next) => {
         next(error);
     }
 };
+
+// -----------------------------------List All Conversations for a User-----------------------------------
+export const ListConversations =  async (req, res, next) => {
+    try {
+        const conversations = await conversationDao.getConversationsForUser(req.user._id);
+        return res.status(200).json({ conversations });
+    } catch (error) {
+        next(error);
+    }
+}
