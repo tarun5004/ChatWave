@@ -24,3 +24,8 @@ export const getConversationsForUser = async (userId) => {
     .populate('participants', 'username email')  // Populate participants with username and email
     .lean();  // Use lean() for better performance if you don't need Mongoose documents
 }
+
+// -----------------------------Get Conversation by ID---------------------------------
+export const getConversationById = async (conversationId) => {
+    return await conversationModel.findById(conversationId)
+}

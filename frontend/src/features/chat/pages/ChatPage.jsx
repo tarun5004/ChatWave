@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import UserSearch from "../../users/components/UserSearch";
 import { openConversation } from "../../conversations/api/conversations.api";
 import ConversationList from "../../conversations/components/ConversationList";
+import MessageList from "../../messages/components/MessageList";
 
 const ChatPage = () => {
     const [activeConversation, setActiveConversation] = useState(null);
@@ -27,6 +28,7 @@ const ChatPage = () => {
         <div>
             <UserSearch onSelectUser={handleUserSelect} />
             <ConversationList currentUserId={currentUserId} onSelectConversation={handleConversationSelect} />
+            <MessageList conversationId={activeConversation?._id} currentUserId={currentUserId} />
             {activeConversation && <div>Conversation opened: {activeConversation._id}</div>}
         </div>
     );
