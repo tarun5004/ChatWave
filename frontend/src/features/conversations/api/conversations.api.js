@@ -1,4 +1,4 @@
-import httpClient from "../../../shared/api/httpClient";
+import { httpClient } from "../../../shared/api/httpClient"
 
 export const openConversation = async (recipientId) => {
     const response = await httpClient.post("/conversations/open", { recipientId });
