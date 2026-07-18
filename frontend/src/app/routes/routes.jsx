@@ -3,8 +3,8 @@ import AuthLayout from "../layouts/authLayout"
 import LoginPage from "../../features/auth/pages/LoginPage"
 import RegisterPage from "../../features/auth/pages/RegisterPage"
 import SplashPage from "../../features/auth/pages/SplashPage"
-import ConversationsPage from "../../features/conversations/pages/ConversationsPage"
 import ProtectedRoute from "./ProtectedRoutes"
+import ChatPage from "../../features/chat/pages/ChatPage"
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     path: "/conversations",
     element: (
       <ProtectedRoute>
-        <ConversationsPage />
+        <ChatPage />
       </ProtectedRoute>
     ),
   },
